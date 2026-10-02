@@ -35,9 +35,9 @@ class IjazahController extends Controller
     {
         $query = Ijazah::with('alumni');
 
-        // Search realtime (via alumni name/nim)
+        // Search realtime (via alumni name/nim with escaped wildcards)
         if ($request->filled('search')) {
-            $search = $request->search;
+            $search = addcslashes(trim($request->search), '%_\\');
             $query->whereHas('alumni', function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
                   ->orWhere('nim', 'like', "%{$search}%");
@@ -49,16 +49,21 @@ class IjazahController extends Controller
             $query->where('status', $request->status);
         }
 
-        // Sorting
+        // Sorting with strict whitelist protection
         $sortField = $request->get('sort', 'created_at');
-        $sortOrder = $request->get('order', 'desc');
+        $sortOrder = strtolower($request->get('order', 'desc')) === 'asc' ? 'asc' : 'desc';
 
-        if ($sortField === 'nama' || $sortField === 'nim') {
+        $allowedAlumniSorts = ['nama', 'nim'];
+        $allowedIjazahSorts = ['status', 'tanggal_siap', 'tanggal_diambil', 'created_at'];
+
+        if (in_array($sortField, $allowedAlumniSorts, true)) {
             $query->join('alumni', 'ijazah.alumni_id', '=', 'alumni.id')
                 ->select('ijazah.*')
                 ->orderBy('alumni.' . $sortField, $sortOrder);
+        } elseif (in_array($sortField, $allowedIjazahSorts, true)) {
+            $query->orderBy('ijazah.' . $sortField, $sortOrder);
         } else {
-            $query->orderBy($sortField, $sortOrder);
+            $query->orderBy('ijazah.created_at', 'desc');
         }
 
         $ijazahList = $query->paginate(10)->withQueryString();

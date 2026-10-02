@@ -23,9 +23,10 @@ class PengembalianController extends Controller
         if ($request->filled('nomor_registrasi')) {
             $searched = true;
             $searchReg = trim($request->nomor_registrasi);
+            $escapedReg = addcslashes($searchReg, '%_\\');
             $alumni = Alumni::with(['dokumen', 'pengembalian', 'ijazah'])
                 ->where('nomor_registrasi', $searchReg)
-                ->orWhere('nomor_registrasi', 'like', "%{$searchReg}")
+                ->orWhere('nomor_registrasi', 'like', "%{$escapedReg}")
                 ->first();
 
             if ($alumni) {
@@ -174,7 +175,7 @@ class PengembalianController extends Controller
         $query = Alumni::with(['pengembalian', 'dokumen']);
 
         if ($request->filled('search')) {
-            $search = $request->search;
+            $search = addcslashes(trim($request->search), '%_\\');
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
                   ->orWhere('nim', 'like', "%{$search}%")

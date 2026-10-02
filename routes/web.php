@@ -40,7 +40,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     
     // Alumni management (Verifikasi Berkas Persyaratan Mahasiswa)
     Route::get('/alumni', [AlumniController::class, 'adminIndex'])->name('alumni.index');
-    Route::get('/alumni/export', [AlumniController::class, 'exportExcel'])->name('alumni.export');
     Route::get('/alumni/{alumni}', [AlumniController::class, 'adminShow'])->name('alumni.show');
     Route::post('/alumni/{alumni}/verify', [AlumniController::class, 'adminVerify'])->name('alumni.verify');
     

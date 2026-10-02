@@ -111,9 +111,9 @@ class AlumniController extends Controller
     {
         $query = Alumni::with('dokumen', 'ijazah');
 
-        // Search realtime
+        // Search realtime (sanitized against wildcard manipulation)
         if ($request->filled('search')) {
-            $search = $request->search;
+            $search = addcslashes(trim($request->search), '%_\\');
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
                   ->orWhere('nim', 'like', "%{$search}%")
@@ -185,95 +185,5 @@ class AlumniController extends Controller
         }
 
         return back()->with('toast_success', 'Status verifikasi ' . $alumni->nama . ' berhasil diperbarui (' . $request->status_verifikasi . ').');
-    }
-
-    /**
-     * Admin: Export to CSV (Excel compatible).
-     */
-    public function exportExcel(Request $request)
-    {
-        $query = Alumni::query();
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('nama', 'like', "%{$search}%")
-                  ->orWhere('nim', 'like', "%{$search}%")
-                  ->orWhere('nomor_registrasi', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
-            });
-        }
-
-        if ($request->filled('program_studi')) {
-            $query->where('program_studi', $request->program_studi);
-        }
-
-        if ($request->filled('status_verifikasi')) {
-            $query->where('status_verifikasi', $request->status_verifikasi);
-        }
-
-        $alumniList = $query->orderBy('created_at', 'desc')->get();
-
-        $headers = [
-            'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="data-alumni-' . date('Y-m-d_H-i') . '.csv"',
-            'Pragma' => 'no-cache',
-            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Expires' => '0'
-        ];
-
-        $callback = function () use ($alumniList) {
-            $file = fopen('php://output', 'w');
-            
-            // Add UTF-8 BOM (Byte Order Mark) for Excel compatibility
-            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-            
-            // CSV Header with Semicolon divider
-            fputcsv($file, [
-                'Nomor Registrasi',
-                'NIM',
-                'Nama Lengkap',
-                'NIK',
-                'Tempat Lahir',
-                'Tanggal Lahir',
-                'Jenis Kelamin',
-                'Program Studi',
-                'Jurusan',
-                'Tahun Masuk',
-                'Tahun Lulus',
-                'Email',
-                'No HP',
-                'Alamat',
-                'Status Verifikasi',
-                'Catatan Admin',
-                'Tanggal Daftar'
-            ], ';');
-
-            foreach ($alumniList as $alumni) {
-                fputcsv($file, [
-                    $alumni->nomor_registrasi,
-                    $alumni->nim,
-                    $alumni->nama,
-                    $alumni->nik,
-                    $alumni->tempat_lahir,
-                    $alumni->tanggal_lahir ? $alumni->tanggal_lahir->format('Y-m-d') : '',
-                    $alumni->jenis_kelamin,
-                    $alumni->program_studi,
-                    $alumni->jurusan,
-                    $alumni->tahun_masuk,
-                    $alumni->tahun_lulus,
-                    $alumni->email,
-                    $alumni->no_hp,
-                    $alumni->alamat,
-                    $alumni->status_verifikasi,
-                    $alumni->catatan_admin,
-                    $alumni->created_at->format('Y-m-d H:i:s')
-                ], ';');
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
     }
 }
