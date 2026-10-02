@@ -95,7 +95,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                             </div>
-                            <input type="text" name="username" id="username" required autofocus value="{{ old('username') }}" class="w-full rounded-xl border border-slate-200 pl-10 pr-4 py-3 text-xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20" placeholder="Contoh: AdminD3JKP">
+                            <input type="text" name="username" id="username" required autofocus value="{{ old('username') }}" class="w-full rounded-xl border border-slate-200 pl-10 pr-4 py-3 text-xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20" placeholder="Masukkan username">
                         </div>
                     </div>
 
