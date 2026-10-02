@@ -9,7 +9,7 @@
                     </svg>
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-xs font-bold text-white tracking-tight leading-tight">POLTEKKES DENPASAR</span>
+                    <span class="text-xs font-bold text-white tracking-tight leading-tight">SIJITU KEPERAWATAN</span>
                     <span class="text-[9px] font-semibold text-slate-500 tracking-wider uppercase leading-tight">ADMIN PANEL</span>
                 </div>
             </a>

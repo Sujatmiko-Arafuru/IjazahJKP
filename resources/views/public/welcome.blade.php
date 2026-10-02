@@ -16,16 +16,16 @@
             <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary uppercase tracking-wide mb-6">
                     <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                    Portal Resmi Alumni
+                    Sistem Ijazah Terpadu
                 </span>
                 
                 <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight sm:text-4xl lg:text-5xl leading-tight">
-                    Portal Layanan Alumni <br/>
-                    <span class="text-primary bg-gradient-to-r from-primary to-info bg-clip-text text-transparent">Poltekkes Kemenkes Denpasar</span>
+                    SIJITU <br/>
+                    <span class="text-primary bg-gradient-to-r from-primary to-info bg-clip-text text-transparent">Sistem Ijazah Terpadu Jurusan Keperawatan</span>
                 </h1>
                 
                 <p class="mt-4 text-sm text-slate-500 leading-relaxed">
-                    Portal resmi untuk pendataan alumni, pengembalian toga, dan unggah berkas kelulusan secara online. Membantu memfasilitasi kebutuhan administrasi alumni Poltekkes Kemenkes Denpasar secara terintegrasi dan transparan.
+                    Sistem resmi pengelolaan ijazah dan dokumen kelulusan terpadu Jurusan Keperawatan Poltekkes Kemenkes Denpasar. Memfasilitasi pendataan alumni, verifikasi berkas, pemantauan toga, dan pengambilan dokumen kelulusan secara terintegrasi dan transparan.
                 </p>
                 
                 <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 justify-center lg:justify-start">
@@ -122,8 +122,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16">
             <h2 class="text-xs font-bold text-primary uppercase tracking-widest">Layanan Utama</h2>
-            <p class="mt-2 text-2xl font-extrabold text-slate-800 tracking-tight sm:text-3xl">Layanan Alumni Poltekkes Denpasar</p>
-            <p class="mt-3 text-sm text-slate-500 leading-relaxed">Kami menyediakan layanan digital terintegrasi untuk melayani kebutuhan administratif para alumni dengan cepat, transparan, dan terstruktur.</p>
+            <p class="mt-2 text-2xl font-extrabold text-slate-800 tracking-tight sm:text-3xl">Layanan SIJITU Jurusan Keperawatan</p>
+            <p class="mt-3 text-sm text-slate-500 leading-relaxed">Kami menyediakan layanan digital terpadu untuk kebutuhan administratif dan pengambilan dokumen ijazah alumni secara cepat, transparan, dan terstruktur.</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -183,7 +183,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16">
             <h2 class="text-xs font-bold text-primary uppercase tracking-widest">Alur Proses</h2>
-            <p class="mt-2 text-2xl font-extrabold text-slate-800 tracking-tight sm:text-3xl">Alur Pelayanan Alumni</p>
+            <p class="mt-2 text-2xl font-extrabold text-slate-800 tracking-tight sm:text-3xl">Alur Layanan SIJITU</p>
             <p class="mt-3 text-sm text-slate-500 leading-relaxed">Ikuti alur proses di bawah ini dari pengisian berkas hingga pengambilan dokumen kelulusan fisik di kampus.</p>
         </div>
         
@@ -196,15 +196,15 @@
                 <!-- Step 1 -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-md text-center md:border-0 md:shadow-none md:bg-transparent">
                     <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm mx-auto shadow-md shadow-primary/20 border-4 border-white mb-4">1</div>
-                    <h4 class="text-sm font-bold text-slate-800">Isi Data &amp; Link Drive</h4>
-                    <p class="mt-2 text-[11px] text-slate-400 leading-relaxed">Mengisi biodata lengkap, mengunggah Pas Foto, &amp; memberikan Link Google Drive (5 Berkas Persyaratan).</p>
+                    <h4 class="text-sm font-bold text-slate-800">Isi Data &amp; Berkas PDF</h4>
+                    <p class="mt-2 text-[11px] text-slate-400 leading-relaxed">Mengisi biodata lengkap, mengunggah Pas Foto (maks 1 MB), &amp; 1 file PDF gabungan 5 Berkas Persyaratan (maks 1 MB).</p>
                 </div>
                 
                 <!-- Step 2 -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-md text-center md:border-0 md:shadow-none md:bg-transparent">
                     <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm mx-auto shadow-md shadow-primary/20 border-4 border-white mb-4">2</div>
                     <h4 class="text-sm font-bold text-slate-800">Verifikasi oleh Admin</h4>
-                    <p class="mt-2 text-[11px] text-slate-400 leading-relaxed">Admin memeriksa Pas Foto &amp; kelengkapan 5 berkas di folder Drive. Jika ada yang ditolak, mahasiswa unggah ulang.</p>
+                    <p class="mt-2 text-[11px] text-slate-400 leading-relaxed">Admin memverifikasi Pas Foto &amp; kelengkapan isi 5 berkas di dalam file PDF. Jika ada yang ditolak, mahasiswa dapat mengunggah ulang perbaikan.</p>
                 </div>
                 
                 <!-- Step 3 -->

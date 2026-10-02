@@ -95,22 +95,30 @@ class PengembalianController extends Controller
             return back()->with('toast_error', 'Berkas ' . $config['title'] . ' sedang ditinjau atau telah disetujui, sehingga tidak dapat diubah.');
         }
 
-        if ($request->item_key === 'drive_link') {
+        if ($request->item_key === 'berkas_persyaratan') {
             $request->validate([
-                'drive_link' => 'required|string|url|max:500',
+                'file' => 'required|file|mimes:pdf|max:1024',
             ], [
-                'drive_link.required' => 'Mohon masukkan Link Google Drive Berkas Persyaratan.',
-                'drive_link.url' => 'Format Link Google Drive tidak valid. Harus diawali dengan http:// atau https://.',
+                'file.required' => 'Mohon pilih file PDF gabungan 5 berkas untuk diunggah.',
+                'file.mimes' => 'Berkas persyaratan harus berformat PDF.',
+                'file.max' => 'Ukuran file PDF berkas persyaratan maksimal 1 MB.',
             ]);
 
-            $dokumen->drive_link = $request->drive_link;
+            $storedPath = $request->file('file')->store('berkas_persyaratan', 'public');
+
+            // Delete old file if exists
+            if ($dokumen->$fileField && Storage::disk('public')->exists($dokumen->$fileField)) {
+                Storage::disk('public')->delete($dokumen->$fileField);
+            }
+
+            $dokumen->$fileField = $storedPath;
         } else {
             $request->validate([
-                'file' => 'required|file|mimes:jpeg,jpg,png,pdf|max:5120',
+                'file' => 'required|file|mimes:jpeg,jpg,png|max:1024',
             ], [
-                'file.required' => 'Mohon pilih foto untuk diunggah.',
-                'file.mimes' => 'Pas foto harus berformat JPG, JPEG, PNG, atau PDF.',
-                'file.max' => 'Ukuran pas foto maksimal 5 MB.',
+                'file.required' => 'Mohon pilih pas foto untuk diunggah.',
+                'file.mimes' => 'Pas foto harus berformat JPG, JPEG, atau PNG.',
+                'file.max' => 'Ukuran pas foto maksimal 1 MB.',
             ]);
 
             $storedPath = $request->file('file')->store('pas_foto', 'public');

@@ -23,7 +23,7 @@
             </span>
             <h2 class="text-2xl font-extrabold text-slate-800 tracking-tight">Data Alumni Berhasil Dikirim!</h2>
             <p class="text-xs text-slate-500 mt-2 max-w-md mx-auto leading-relaxed">
-                Data diri dan berkas persyaratan Anda telah sukses disimpan ke database dan telah diteruskan ke pihak administrator Poltekkes Kemenkes Denpasar.
+                Data diri dan berkas persyaratan Anda telah sukses disimpan ke database dan telah diteruskan ke pihak administrator Jurusan Keperawatan Poltekkes Kemenkes Denpasar.
             </p>
         </div>
 

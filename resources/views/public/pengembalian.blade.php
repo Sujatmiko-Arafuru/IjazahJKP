@@ -11,7 +11,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Portal Alumni &bull; Poltekkes Denpasar
+                SIJITU &bull; Jurusan Keperawatan
             </span>
             <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">
                 Cek Status &amp; Pengambilan Dokumen
@@ -204,7 +204,7 @@
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <span class="text-xs font-bold text-primary uppercase tracking-widest block mb-1">Bagian A</span>
-                        <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Berkas Persyaratan Alumni (Pas Foto &amp; Link Google Drive 5 Berkas)</h2>
+                        <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Berkas Persyaratan Alumni (Pas Foto &amp; 1 File PDF 5 Berkas)</h2>
                         <p class="text-xs text-slate-500 mt-1">
                             Status verifikasi berkas yang Anda unggah saat pendataan. Berkas dengan status <em>Menunggu Review</em> atau <em>Diverifikasi</em> tidak dapat diedit. Jika status <em>Ditolak</em>, Anda dapat memperbarui berkas tersebut.
                         </p>
@@ -231,7 +231,7 @@
                                         @if($key === 'pas_foto')
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                         @else
-                                            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+                                            <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                                         @endif
                                     </div>
 
@@ -256,13 +256,13 @@
 
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-sm font-bold text-slate-800 leading-snug">{{ $item['title'] }}</h3>
-                                    <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded {{ $key === 'pas_foto' ? 'bg-indigo-50 text-indigo-600 border border-indigo-200' : 'bg-blue-50 text-blue-600 border border-blue-200' }} uppercase">{{ $item['format'] }}</span>
+                                    <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded {{ $key === 'pas_foto' ? 'bg-indigo-50 text-indigo-600 border border-indigo-200' : 'bg-rose-50 text-rose-600 border border-rose-200' }} uppercase">{{ $item['format'] }}</span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">{{ $item['description'] }}</p>
 
-                                @if($key === 'drive_link')
+                                @if($key === 'berkas_persyaratan')
                                     <div class="mt-3 bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-1 text-xs">
-                                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">5 Berkas yang ada di dalam Drive:</span>
+                                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">5 Berkas yang ada di dalam File PDF:</span>
                                         <ul class="text-[11px] text-slate-600 space-y-1 list-disc pl-4">
                                             <li>Screenshot Tracer Study</li>
                                             <li>Surat Bebas Pustaka</li>
@@ -298,12 +298,13 @@
                                             </a>
                                         </div>
                                     @else
-                                        <div class="flex items-center justify-between bg-blue-50/60 px-3 py-2 rounded-xl border border-blue-100">
-                                            <span class="text-[11px] font-medium text-blue-900 truncate max-w-[200px]">
-                                                {{ $fileVal }}
+                                        <div class="flex items-center justify-between bg-rose-50/60 px-3 py-2 rounded-xl border border-rose-100">
+                                            <span class="text-[11px] font-medium text-rose-900 truncate max-w-[200px] flex items-center gap-1.5">
+                                                <svg class="w-4 h-4 text-rose-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                                {{ basename($fileVal) }}
                                             </span>
-                                            <a href="{{ $fileVal }}" target="_blank" class="text-xs font-extrabold text-blue-600 hover:underline flex items-center gap-1">
-                                                Buka Link Drive
+                                            <a href="{{ route('pengembalian.view', ['alumniId' => $alumni->id, 'itemKey' => $key]) }}" target="_blank" class="text-xs font-extrabold text-rose-700 hover:underline flex items-center gap-1">
+                                                Buka File PDF
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                                             </a>
                                         </div>
@@ -311,7 +312,7 @@
                                 @endif
 
                                 @if($status === 'Ditolak')
-                                    <!-- Mahasiswa BISA upload ulang / update link hanya jika status DITOLAK -->
+                                    <!-- Mahasiswa BISA upload ulang perbaikan file hanya jika status DITOLAK -->
                                     <form method="POST" action="{{ route('public.pengembalian.upload') }}" enctype="multipart/form-data" class="space-y-3">
                                         @csrf
                                         <input type="hidden" name="alumni_id" value="{{ $alumni->id }}" />
@@ -325,17 +326,19 @@
 
                                         @if($key === 'pas_foto')
                                             <div>
-                                                <input type="file" name="file" required accept="image/*,.pdf" class="block w-full text-[11px] text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 transition-all cursor-pointer" />
+                                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Unggah Pas Foto Baru (Maks 1 MB, JPG/PNG)</label>
+                                                <input type="file" name="file" required accept="image/jpeg,image/png,image/jpg" class="block w-full text-[11px] text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 transition-all cursor-pointer" />
                                             </div>
                                         @else
                                             <div>
-                                                <input type="url" name="drive_link" required placeholder="https://drive.google.com/drive/folders/..." value="{{ $fileVal }}" class="block w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-rose-500 bg-white" />
+                                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Unggah File PDF Gabungan 5 Berkas Baru (Maks 1 MB)</label>
+                                                <input type="file" name="file" required accept=".pdf,application/pdf" class="block w-full text-[11px] text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 transition-all cursor-pointer" />
                                             </div>
                                         @endif
 
                                         <button type="submit" class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-                                            Simpan Perbaikan {{ $key === 'pas_foto' ? 'Foto' : 'Link Drive' }}
+                                            Simpan Perbaikan {{ $key === 'pas_foto' ? 'Foto' : 'File PDF Berkas' }}
                                         </button>
                                     </form>
                                 @elseif($status === 'Diverifikasi')

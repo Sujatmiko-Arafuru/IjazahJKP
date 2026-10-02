@@ -14,6 +14,9 @@ class Dokumen extends Model
         'pas_foto',
         'pas_foto_status',
         'pas_foto_catatan',
+        'berkas_persyaratan',
+        'berkas_persyaratan_status',
+        'berkas_persyaratan_catatan',
         'drive_link',
         'drive_link_status',
         'drive_link_catatan',
@@ -52,21 +55,21 @@ class Dokumen extends Model
         return [
             'pas_foto' => [
                 'title' => 'Pas Foto Resmi Alumni',
-                'description' => 'Pas foto resmi terbaru (latar merah/biru disarankan)',
+                'description' => 'Pas foto resmi terbaru (latar merah/biru disarankan, Maks 1 MB)',
                 'file_field' => 'pas_foto',
                 'status_field' => 'pas_foto_status',
                 'catatan_field' => 'pas_foto_catatan',
-                'format' => 'Foto (JPG/PNG/PDF)',
+                'format' => 'Foto (JPG/PNG)',
                 'is_link' => false,
             ],
-            'drive_link' => [
-                'title' => 'Link Google Drive (5 Berkas Persyaratan)',
-                'description' => 'Link folder Google Drive publik yang berisi 5 berkas persyaratan (Tracer Study, Bebas Pustaka, Keabsahan Data, Pengembalian Toga, Bank Ijazah)',
-                'file_field' => 'drive_link',
-                'status_field' => 'drive_link_status',
-                'catatan_field' => 'drive_link_catatan',
-                'format' => 'Link Drive',
-                'is_link' => true,
+            'berkas_persyaratan' => [
+                'title' => '5 Berkas Persyaratan (1 File PDF)',
+                'description' => 'Satu file PDF gabungan 5 berkas persyaratan (Tracer Study, Bebas Pustaka, Keabsahan Data, Pengembalian Toga, Bank Ijazah, Maks 1 MB)',
+                'file_field' => 'berkas_persyaratan',
+                'status_field' => 'berkas_persyaratan_status',
+                'catatan_field' => 'berkas_persyaratan_catatan',
+                'format' => 'Dokumen (PDF)',
+                'is_link' => false,
             ],
         ];
     }

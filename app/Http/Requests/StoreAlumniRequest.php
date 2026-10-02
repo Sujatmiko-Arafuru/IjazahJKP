@@ -53,9 +53,9 @@ class StoreAlumniRequest extends FormRequest
             'no_hp' => 'required|string|regex:/^[0-9]+$/|max:20',
             'alamat' => 'required|string',
 
-            // Step 2: Berkas Persyaratan (Pas Foto + Link Google Drive 5 Dokumen)
-            'pas_foto' => 'required|file|mimes:jpeg,jpg,png,pdf|max:5120',
-            'drive_link' => 'required|string|url|max:500',
+            // Step 2: Berkas Persyaratan (Pas Foto + File PDF 5 Dokumen Persyaratan)
+            'pas_foto' => 'required|file|mimes:jpeg,jpg,png|max:1024',
+            'berkas_persyaratan' => 'required|file|mimes:pdf|max:1024',
         ];
     }
 
@@ -82,11 +82,13 @@ class StoreAlumniRequest extends FormRequest
             'email.regex' => 'Format email tidak valid. Harus menggunakan "@" dan nama domain yang benar (contoh: alumni@email.com).',
 
             'pas_foto.required' => 'Mohon unggah Pas Foto resmi.',
-            'pas_foto.mimes' => 'Pas foto harus berformat JPG, JPEG, PNG, atau PDF.',
-            'pas_foto.max' => 'Ukuran pas foto maksimal 5 MB.',
+            'pas_foto.mimes' => 'Pas foto harus berformat JPG, JPEG, atau PNG.',
+            'pas_foto.max' => 'Ukuran pas foto maksimal 1 MB.',
 
-            'drive_link.required' => 'Mohon masukkan Link Google Drive Berkas Persyaratan.',
-            'drive_link.url' => 'Format Link Google Drive tidak valid. Harus diawali dengan http:// atau https://.',
+            'berkas_persyaratan.required' => 'Mohon unggah file PDF gabungan 5 berkas persyaratan.',
+            'berkas_persyaratan.file' => 'Berkas persyaratan harus berupa file valid.',
+            'berkas_persyaratan.mimes' => 'Berkas persyaratan harus berformat PDF.',
+            'berkas_persyaratan.max' => 'Ukuran file PDF berkas persyaratan maksimal 1 MB.',
         ];
     }
 }

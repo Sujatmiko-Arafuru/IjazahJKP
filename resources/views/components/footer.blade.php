@@ -10,12 +10,15 @@
                         </svg>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-sm font-bold text-white tracking-tight leading-tight">POLTEKKES KEMENKES</span>
-                        <span class="text-xs font-semibold text-slate-400 tracking-wide uppercase leading-tight">DENPASAR ALUMNI</span>
+                        <span class="text-sm font-black text-white tracking-tight leading-tight flex items-center gap-1.5">
+                            SIJITU
+                            <span class="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-slate-300 font-bold">KEPERAWATAN</span>
+                        </span>
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide uppercase leading-tight">Sistem Ijazah Terpadu</span>
                     </div>
                 </div>
                 <p class="text-xs text-slate-500 leading-relaxed">
-                    Portal resmi layanan alumni Poltekkes Kemenkes Denpasar. Berdedikasi dalam mengelola pendataan alumni serta memfasilitasi pengecekan status pengambilan ijazah secara cepat, transparan, dan akurat.
+                    <strong>SIJITU</strong> (Sistem Ijazah Terpadu Jurusan Keperawatan) - Portal resmi pengelolaan pendataan alumni, verifikasi kelengkapan berkas persyaratan, dan pengambilan ijazah Jurusan Keperawatan Poltekkes Kemenkes Denpasar secara cepat, transparan, dan akurat.
                 </p>
             </div>
 

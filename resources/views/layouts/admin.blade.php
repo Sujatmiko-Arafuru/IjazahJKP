@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Admin Dashboard') - Portal Layanan Alumni Poltekkes Denpasar</title>
+    <title>@yield('title', 'Admin Dashboard') - SIJITU Jurusan Keperawatan</title>
     
     <!-- Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,8 +50,8 @@
                                     <span class="sr-only">Open user menu</span>
                                     <div class="flex items-center gap-2.5">
                                         <div class="flex flex-col text-right hidden sm:flex">
-                                            <span class="text-xs font-semibold text-slate-800">{{ Auth::user()->name ?? 'Admin Poltekkes' }}</span>
-                                            <span class="text-[10px] text-slate-400 font-medium">Administrator</span>
+                                            <span class="text-xs font-semibold text-slate-800">{{ Auth::user()->name ?? 'Administrator' }}</span>
+                                            <span class="text-[10px] text-slate-400 font-medium font-mono">{{ '@' . (Auth::user()->username ?? 'admin') }}</span>
                                         </div>
                                         <!-- Avatar with dynamic text initials or placeholder image -->
                                         <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold text-sm shadow-inner border border-primary/10">
@@ -65,7 +65,7 @@
                             <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-48 mt-2 origin-top-right bg-white rounded-xl shadow-lg border border-slate-100 ring-1 ring-black ring-opacity-5 focus:outline-none py-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu" style="display: none;">
                                 <div class="px-4 py-2 border-b border-slate-50 text-xs">
                                     <p class="font-medium text-slate-500">Masuk sebagai:</p>
-                                    <p class="font-bold text-slate-800 truncate">{{ Auth::user()->email ?? 'admin@poltekkes-denpasar.ac.id' }}</p>
+                                    <p class="font-bold text-slate-800 truncate font-mono">{{ '@' . (Auth::user()->username ?? 'admin') }}</p>
                                 </div>
                                 <a href="{{ route('public.home') }}" class="block px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors" role="menuitem">Lihat Beranda</a>
                                 

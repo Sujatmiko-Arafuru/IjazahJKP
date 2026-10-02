@@ -13,12 +13,32 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::updateOrCreate(
-            ['email' => 'admin@poltekkes-denpasar.ac.id'],
+        $admins = [
             [
-                'name' => 'Administrator Poltekkes Denpasar',
-                'password' => Hash::make('admin123'), // Change as appropriate
-            ]
-        );
+                'username' => 'AdminD3JKP',
+                'name' => 'Admin D3 Keperawatan',
+                'password' => Hash::make('D3JKP#123'),
+                'email' => 'admind3jkp@sijitu.local',
+            ],
+            [
+                'username' => 'AdminStrJKP',
+                'name' => 'Admin Sarjana Terapan Keperawatan',
+                'password' => Hash::make('StrJKP#123'),
+                'email' => 'adminstrjkp@sijitu.local',
+            ],
+            [
+                'username' => 'AdminNersJKP',
+                'name' => 'Admin Profesi Ners Keperawatan',
+                'password' => Hash::make('NersJKP#123'),
+                'email' => 'adminnersjkp@sijitu.local',
+            ],
+        ];
+
+        foreach ($admins as $adminData) {
+            Admin::updateOrCreate(
+                ['username' => $adminData['username']],
+                $adminData
+            );
+        }
     }
 }

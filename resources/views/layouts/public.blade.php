@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="SIJITU (Sistem Ijazah Terpadu Jurusan Keperawatan) Poltekkes Kemenkes Denpasar. Layanan digital terpadu untuk pendataan alumni, verifikasi berkas persyaratan, dan pemantauan pengambilan dokumen ijazah.">
 
-    <title>@yield('title', 'Portal Layanan Alumni') - Poltekkes Kemenkes Denpasar</title>
+    <title>@yield('title', 'SIJITU') - Sistem Ijazah Terpadu Jurusan Keperawatan</title>
     
     <!-- Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

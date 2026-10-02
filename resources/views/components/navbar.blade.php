@@ -10,8 +10,11 @@
                         </svg>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-sm font-extrabold text-slate-800 tracking-tight leading-tight group-hover:text-primary transition-colors">POLTEKKES KEMENKES</span>
-                        <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase leading-tight">DENPASAR ALUMNI</span>
+                        <span class="text-sm font-black text-slate-800 tracking-tight leading-tight group-hover:text-primary transition-colors flex items-center gap-1.5">
+                            SIJITU
+                            <span class="text-[9px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-bold">KEPERAWATAN</span>
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-500 tracking-wider uppercase leading-tight">Sistem Ijazah Terpadu</span>
                     </div>
                 </a>
             </div>

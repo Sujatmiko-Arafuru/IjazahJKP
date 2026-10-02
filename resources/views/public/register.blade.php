@@ -17,8 +17,7 @@
         'tahun_lulus' => old('tahun_lulus', ''),
         'email' => old('email', ''),
         'no_hp' => old('no_hp', ''),
-        'alamat' => old('alamat', ''),
-        'drive_link' => old('drive_link', '')
+        'alamat' => old('alamat', '')
     ]) !!};
 
     window.registerFormData = function() {
@@ -43,10 +42,11 @@
             no_hp: '',
             alamat: '',
             
-            // Step 2 File Name & Drive Link
+            // Step 2 File Names & Preview
             pasFotoName: '',
             pasFotoPreview: '',
-            driveLink: '',
+            berkasPersyaratanName: '',
+            berkasPersyaratanSize: '',
 
             // Master Data Jurusan & Program Studi Poltekkes Kemenkes Denpasar
             jurusanMap: {
@@ -149,14 +149,14 @@
                 }
 
                 // Watch fields to auto-save draft
-                ['nama', 'nim', 'nik', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'program_studi', 'jurusan', 'tahun_masuk', 'tahun_lulus', 'email', 'no_hp', 'alamat', 'driveLink', 'step'].forEach(field => {
+                ['nama', 'nim', 'nik', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'program_studi', 'jurusan', 'tahun_masuk', 'tahun_lulus', 'email', 'no_hp', 'alamat', 'step'].forEach(field => {
                     this.$watch(field, () => this.saveDraft());
                 });
             },
 
             loadDraft() {
                 try {
-                    const raw = localStorage.getItem('dapol_register_draft');
+                    const raw = localStorage.getItem('sijitu_register_draft');
                     if (!raw) {
                         this.loadOldValues();
                         return;
@@ -185,11 +185,10 @@
                         this.email = d.email || init.email || '';
                         this.no_hp = d.no_hp || init.no_hp || '';
                         this.alamat = d.alamat || init.alamat || '';
-                        this.driveLink = d.driveLink || init.drive_link || '';
                         if (d.step && d.step >= 1 && d.step <= 3) this.step = d.step;
                         this.draftRestored = true;
                     } else {
-                        localStorage.removeItem('dapol_register_draft');
+                        localStorage.removeItem('sijitu_register_draft');
                         this.loadOldValues();
                     }
                 } catch (e) {
@@ -215,7 +214,6 @@
                 this.email = init.email || '';
                 this.no_hp = init.no_hp || '';
                 this.alamat = init.alamat || '';
-                this.driveLink = init.drive_link || '';
             },
 
             saveDraft() {
@@ -236,16 +234,15 @@
                             email: this.email,
                             no_hp: this.no_hp,
                             alamat: this.alamat,
-                            driveLink: this.driveLink,
                             step: this.step
                         }
                     };
-                    localStorage.setItem('dapol_register_draft', JSON.stringify(draft));
+                    localStorage.setItem('sijitu_register_draft', JSON.stringify(draft));
                 } catch (e) {}
             },
 
             clearDraft() {
-                localStorage.removeItem('dapol_register_draft');
+                localStorage.removeItem('sijitu_register_draft');
                 this.nama = '';
                 this.nim = '';
                 this.nik = '';
@@ -262,7 +259,6 @@
                 this.email = '';
                 this.no_hp = '';
                 this.alamat = '';
-                this.driveLink = '';
                 this.step = 1;
                 this.draftRestored = false;
             },
@@ -312,16 +308,11 @@
             validateStep2() {
                 this.errorMessage = '';
                 if (!this.pasFotoName) {
-                    this.errorMessage = 'Mohon unggah Pas Foto resmi (Maks 5MB, JPG/PNG/JPEG).';
+                    this.errorMessage = 'Mohon unggah Pas Foto resmi (Maksimal 1 MB, JPG/PNG).';
                     return false;
                 }
-                if (!this.driveLink || !this.driveLink.trim()) {
-                    this.errorMessage = 'Mohon masukkan Link Google Drive Berkas Persyaratan.';
-                    return false;
-                }
-                const urlPattern = /^(http|https):\/\/[^ "]+$/;
-                if (!urlPattern.test(this.driveLink.trim())) {
-                    this.errorMessage = 'Format Link Google Drive tidak valid. Harus diawali dengan http:// atau https://.';
+                if (!this.berkasPersyaratanName) {
+                    this.errorMessage = 'Mohon unggah 1 file PDF gabungan 5 Berkas Persyaratan (Maksimal 1 MB).';
                     return false;
                 }
                 return true;
@@ -374,7 +365,7 @@
                     return;
                 }
                 this.isSubmitting = true;
-                localStorage.removeItem('dapol_register_draft');
+                localStorage.removeItem('sijitu_register_draft');
                 if (e && e.target) {
                     HTMLFormElement.prototype.submit.call(e.target);
                 }
@@ -391,7 +382,7 @@
     >
         <!-- Header & Step Indicator -->
         <div class="px-8 py-6 border-b border-slate-100 bg-slate-50/40">
-            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Formulir Pendataan Alumni</h2>
+            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Formulir Pendataan Alumni - SIJITU</h2>
             <p class="text-xs text-slate-500 mt-1">Lengkapi data diri Anda secara berkala melalui langkah-langkah di bawah ini.</p>
             
             <!-- Progress Bar Indicator Symmetrical Flex Layout -->
@@ -628,7 +619,7 @@
                 <!-- Pas Foto -->
                 <div class="border border-dashed border-slate-200 rounded-2xl p-6 bg-slate-50/20">
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">
-                        Upload Pas Foto Resmi Alumni <span class="text-rose-600">*</span> (Maks. 5MB, JPG/PNG/JPEG)
+                        Upload Pas Foto Resmi Alumni <span class="text-rose-600">*</span> (Maks. 1 MB, JPG/PNG)
                     </label>
                     
                     <div class="flex items-center gap-6">
@@ -651,96 +642,161 @@
                                        @change="
                                             const file = $event.target.files[0];
                                             if (file) {
+                                                if (file.size > 1048576) {
+                                                    errorMessage = 'Ukuran Pas Foto melebihi 1 MB (' + (file.size/1024/1024).toFixed(2) + ' MB). Maksimal ukuran pas foto adalah 1 MB (1024 KB)!';
+                                                    $event.target.value = '';
+                                                    pasFotoName = '';
+                                                    pasFotoPreview = null;
+                                                    return;
+                                                }
+                                                errorMessage = '';
                                                 pasFotoName = file.name;
                                                 pasFotoPreview = URL.createObjectURL(file);
                                             }
                                        ">
                             </label>
-                            <p class="text-[10px] text-slate-400 mt-2" x-text="pasFotoName ? 'File terpilih: ' + pasFotoName : 'Format file .png, .jpg, .jpeg (Rasio 3x4 disarankan)'"></p>
+                            <p class="text-[10px] text-slate-400 mt-2" x-text="pasFotoName ? 'File terpilih: ' + pasFotoName : 'Format file .png, .jpg, .jpeg (Maksimal 1 MB, rasio 3x4 disarankan)'"></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card Instruksi Google Drive & 5 Berkas Persyaratan -->
-                <div class="border border-blue-200 rounded-2xl p-6 bg-gradient-to-br from-blue-50/50 to-indigo-50/30 space-y-4">
+                <!-- Card Instruksi 5 Berkas Persyaratan (1 File PDF) -->
+                <div class="border border-rose-200 rounded-2xl p-6 bg-gradient-to-br from-rose-50/40 via-red-50/20 to-amber-50/30 space-y-4">
                     <div class="flex items-start gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center flex-shrink-0 font-bold shadow-md shadow-blue-600/20">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/>
+                        <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center flex-shrink-0 font-bold shadow-md shadow-rose-600/20">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-sm font-extrabold text-slate-800">Petunjuk Upload 5 Berkas Persyaratan via Google Drive</h3>
+                            <h3 class="text-sm font-extrabold text-slate-800">Petunjuk Upload 5 Berkas Persyaratan (1 File PDF Gabungan)</h3>
                             <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                                Mahasiswa diwajibkan untuk mengunggah <strong>5 Berkas Persyaratan</strong> ke dalam 1 folder Google Drive milik pribadi, kemudian membagikan link folder tersebut pada kolom di bawah ini.
+                                Mahasiswa diwajibkan untuk menggabungkan <strong>5 Berkas Persyaratan</strong> menjadi <strong>1 file format PDF</strong> dengan ukuran <strong>maksimal 1 MB</strong> sebelum diunggah ke sistem.
                             </p>
                         </div>
                     </div>
 
-                    <!-- List 5 File yang Harus Diunggah ke Drive -->
-                    <div class="bg-white/80 backdrop-blur-xs rounded-xl p-4 border border-blue-100/80 space-y-2">
-                        <span class="text-[11px] font-bold text-blue-900 uppercase tracking-wider block mb-1">5 File yang Wajib Ada di Dalam Folder Drive:</span>
+                    <!-- List 5 File yang Harus Digabung ke dalam 1 File PDF -->
+                    <div class="bg-white/90 backdrop-blur-xs rounded-xl p-4 border border-rose-100 space-y-2">
+                        <span class="text-[11px] font-bold text-rose-900 uppercase tracking-wider block mb-1">5 Berkas yang Wajib Disatukan ke dalam 1 File PDF:</span>
                         <ul class="text-xs text-slate-700 space-y-1.5 pl-2">
                             <li class="flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-extrabold text-[10px] flex items-center justify-center">1</span>
-                                <span><strong>Screenshot Tracer Study</strong> (PDF / Tangkapan layar bukti tracer study)</span>
+                                <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 font-extrabold text-[10px] flex items-center justify-center">1</span>
+                                <span><strong>Screenshot Tracer Study</strong> (Bukti pengisian Tracer Study Kemenkes/Poltekkes)</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-extrabold text-[10px] flex items-center justify-center">2</span>
-                                <span><strong>Surat Bebas Pustaka</strong> (PDF Keterangan Bebas Pinjam Perpustakaan)</span>
+                                <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 font-extrabold text-[10px] flex items-center justify-center">2</span>
+                                <span><strong>Surat Bebas Pustaka</strong> (Surat Keterangan Bebas Pinjam Perpustakaan)</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-extrabold text-[10px] flex items-center justify-center">3</span>
-                                <span><strong>Surat Pernyataan Keabsahan Data Ijazah &amp; PDDIKTI</strong> (PDF bermaterai)</span>
+                                <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 font-extrabold text-[10px] flex items-center justify-center">3</span>
+                                <span><strong>Surat Pernyataan Keabsahan Data Ijazah &amp; PDDIKTI</strong> (Surat bermaterai)</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-extrabold text-[10px] flex items-center justify-center">4</span>
-                                <span><strong>Bukti Pengembalian Toga Bersama Petugas</strong> (PDF / Berita acara penyerahan)</span>
+                                <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 font-extrabold text-[10px] flex items-center justify-center">4</span>
+                                <span><strong>Bukti Pengembalian Toga Bersama Petugas</strong> (Tanda terima / Berita acara toga)</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-extrabold text-[10px] flex items-center justify-center">5</span>
-                                <span><strong>Bukti Screenshot Pengisian Bank Ijazah</strong> (PDF / Screenshot pengisian data)</span>
+                                <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 font-extrabold text-[10px] flex items-center justify-center">5</span>
+                                <span><strong>Bukti Screenshot Pengisian Bank Ijazah</strong> (Tangkapan layar pengisian data)</span>
                             </li>
                         </ul>
                     </div>
 
-                    <!-- Warning Box tentang Akses Drive (Public & Viewer Only) -->
+                    <!-- Info Ketentuan Ukuran Max 1 MB & Tips Kompresi -->
                     <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 text-xs flex items-start gap-2.5">
                         <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <div>
-                            <strong class="font-extrabold block text-amber-950">⚠️ PENTING: PENGATURAN AKSES FOLDER GOOGLE DRIVE</strong>
+                            <strong class="font-extrabold block text-amber-950">⚠️ KETENTUAN UKURAN FILE MAKSIMAL 1 MB</strong>
                             <p class="mt-0.5 leading-relaxed text-[11px]">
-                                Pastikan pengaturan akses folder Google Drive disetel ke <strong class="underline decoration-amber-500 font-bold">"Siapa saja yang memiliki link" (Public)</strong> dan dengan izin <strong class="underline decoration-amber-500 font-bold">"Pengakses Lihat Saja" (Viewer / Hanya Melihat)</strong>. Jika folder dikunci/private, admin tidak dapat memverifikasi berkas Anda.
+                                Pastikan file PDF hasil gabungan tidak melebihi <strong>1 MB (1024 KB)</strong>. Jika ukuran file Anda terlalu besar, Anda dapat mengompresnya secara online (misal: <em>ilovepdf.com/compress_pdf</em>) sebelum diunggah.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Input Box Link Google Drive -->
+                <!-- Input Box File PDF 5 Berkas Persyaratan -->
                 <div class="border border-slate-200 rounded-2xl p-6 bg-white shadow-xs">
-                    <label for="drive_link" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        Link Folder Google Drive Berkas Persyaratan <span class="text-rose-600">*</span>
+                    <label for="berkas_persyaratan_input" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        File PDF Gabungan 5 Berkas Persyaratan <span class="text-rose-600">*</span>
                     </label>
+
                     <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                            <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
-                            </svg>
-                        </div>
                         <input 
-                            type="url" 
-                            name="drive_link" 
-                            id="drive_link" 
-                            x-model="driveLink" 
-                            placeholder="https://drive.google.com/drive/folders/..." 
-                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 bg-slate-50/50 focus:bg-white transition-all font-mono"
+                            type="file" 
+                            name="berkas_persyaratan" 
+                            id="berkas_persyaratan_input" 
+                            accept=".pdf,application/pdf" 
+                            class="hidden"
+                            @change="
+                                const file = $event.target.files[0];
+                                if (file) {
+                                    if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+                                        errorMessage = 'Format file berkas persyaratan tidak valid! Harus berformat .pdf.';
+                                        $event.target.value = '';
+                                        berkasPersyaratanName = '';
+                                        berkasPersyaratanSize = '';
+                                        return;
+                                    }
+                                    if (file.size > 1048576) {
+                                        errorMessage = 'Ukuran file PDF melebihi 1 MB (' + (file.size/1024/1024).toFixed(2) + ' MB). Maksimal ukuran file adalah 1 MB (1024 KB)! Silakan kompres file PDF terlebih dahulu.';
+                                        $event.target.value = '';
+                                        berkasPersyaratanName = '';
+                                        berkasPersyaratanSize = '';
+                                        return;
+                                    }
+                                    errorMessage = '';
+                                    berkasPersyaratanName = file.name;
+                                    berkasPersyaratanSize = (file.size / 1024).toFixed(1) + ' KB';
+                                }
+                            "
                         />
+
+                        <!-- State: No File Selected -->
+                        <div x-show="!berkasPersyaratanName">
+                            <label 
+                                for="berkas_persyaratan_input" 
+                                class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-300 hover:border-rose-400 rounded-2xl bg-slate-50/50 hover:bg-rose-50/30 transition-all cursor-pointer group text-center"
+                            >
+                                <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-xs">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-xs font-bold text-slate-700 group-hover:text-rose-600 transition-colors">
+                                    Klik di sini untuk memilih file PDF gabungan 5 berkas
+                                </span>
+                                <span class="text-[11px] text-slate-400 mt-1">
+                                    Format: <strong>.PDF</strong> &bull; Ukuran Maksimal: <strong>1 MB (1024 KB)</strong>
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- State: File Selected -->
+                        <div x-show="berkasPersyaratanName" class="p-4 rounded-2xl border border-emerald-200 bg-emerald-50/40 flex items-center justify-between gap-4" style="display: none;">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-sm">
+                                    PDF
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold text-slate-800 truncate block" x-text="berkasPersyaratanName"></span>
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 flex-shrink-0" x-text="berkasPersyaratanSize"></span>
+                                    </div>
+                                    <span class="text-[11px] text-emerald-700 flex items-center gap-1 font-medium mt-0.5">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                        File PDF siap dikirim (Sesuai batas &le; 1 MB)
+                                    </span>
+                                </div>
+                            </div>
+
+                            <label for="berkas_persyaratan_input" class="flex-shrink-0 px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all shadow-xs cursor-pointer">
+                                Ganti File
+                            </label>
+                        </div>
                     </div>
-                    <span class="text-[10px] text-slate-400 mt-2 block">
-                        Salin link folder Google Drive Anda yang berisi 5 file persyaratan lalu tempelkan di sini.
-                    </span>
                 </div>
             </div>
 
@@ -775,8 +831,12 @@
                             <strong x-text="pasFotoName || '-'"></strong>
                         </div>
                         <div>
-                            <span class="text-slate-400 block">Link Google Drive (5 Berkas Persyaratan):</span> 
-                            <a :href="driveLink" target="_blank" class="text-primary font-bold underline break-all" x-text="driveLink || '-'"></a>
+                            <span class="text-slate-400 block">5 Berkas Persyaratan (1 File PDF):</span> 
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="px-2 py-0.5 bg-rose-100 text-rose-700 rounded text-[10px] font-extrabold">PDF</span>
+                                <strong x-text="berkasPersyaratanName || '-'"></strong>
+                                <span class="text-slate-400 text-[11px]" x-show="berkasPersyaratanSize" x-text="'(' + berkasPersyaratanSize + ')'"></span>
+                            </div>
                         </div>
                     </div>
                 </div>

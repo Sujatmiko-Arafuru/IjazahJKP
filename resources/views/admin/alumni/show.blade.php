@@ -276,6 +276,79 @@
                                             Pas Foto belum diunggah.
                                         </div>
                                     @endif
+                                @elseif($key === 'berkas_persyaratan')
+                                    @if($file)
+                                        <div class="p-6 bg-white min-h-[380px] flex flex-col justify-between space-y-4">
+                                            <!-- File Info & Action Bar -->
+                                            <div class="p-4 rounded-2xl bg-gradient-to-br from-rose-50 to-red-50/40 border border-rose-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                                <div class="flex items-center gap-3.5 min-w-0 flex-1">
+                                                    <div class="w-12 h-12 rounded-2xl bg-rose-600 text-white flex items-center justify-center flex-shrink-0 font-bold shadow-md shadow-rose-600/20">
+                                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="min-w-0 flex-1">
+                                                        <span class="text-[10px] font-extrabold text-rose-800 uppercase tracking-wider block">File PDF 5 Berkas Persyaratan Mahasiswa (Maks. 1 MB)</span>
+                                                        <span class="text-xs font-bold text-slate-800 truncate block mt-0.5">
+                                                            {{ basename($file) }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <a href="{{ route('pengembalian.view', [$alumni->id, $key]) }}" target="_blank" class="flex-shrink-0 px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs rounded-xl shadow-md shadow-rose-600/20 hover:shadow-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                                    <span>📄 Buka PDF di Tab Baru</span>
+                                                </a>
+                                            </div>
+
+                                            <!-- PDF Inline Iframe Viewer -->
+                                            <div class="relative w-full h-[520px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-inner">
+                                                <iframe src="{{ route('pengembalian.view', [$alumni->id, $key]) }}" class="w-full h-full rounded-2xl">
+                                                    <p class="p-6 text-center text-xs text-slate-500">
+                                                        Browser Anda tidak mendukung preview PDF. 
+                                                        <a href="{{ route('pengembalian.view', [$alumni->id, $key]) }}" target="_blank" class="text-primary font-bold underline">Klik di sini untuk mengunduh berkas PDF</a>
+                                                    </p>
+                                                </iframe>
+                                            </div>
+
+                                            <!-- Checklist items to verify in the PDF -->
+                                            <div class="border border-slate-200/80 rounded-2xl p-4 bg-slate-50/50 space-y-2">
+                                                <span class="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider block mb-1">
+                                                    Checklist 5 Berkas yang Harus Ada di Dalam File PDF:
+                                                </span>
+                                                <ul class="text-xs text-slate-600 grid grid-cols-1 md:grid-cols-2 gap-2">
+                                                    <li class="flex items-center gap-2">
+                                                        <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 font-bold text-[10px] flex items-center justify-center flex-shrink-0">1</span>
+                                                        <span><strong>Screenshot Tracer Study</strong> (Kemenkes/Poltekkes)</span>
+                                                    </li>
+                                                    <li class="flex items-center gap-2">
+                                                        <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 font-bold text-[10px] flex items-center justify-center flex-shrink-0">2</span>
+                                                        <span><strong>Surat Bebas Pustaka</strong> (Perpustakaan)</span>
+                                                    </li>
+                                                    <li class="flex items-center gap-2">
+                                                        <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 font-bold text-[10px] flex items-center justify-center flex-shrink-0">3</span>
+                                                        <span><strong>Surat Keabsahan Data Ijazah</strong> (Bermaterai)</span>
+                                                    </li>
+                                                    <li class="flex items-center gap-2">
+                                                        <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 font-bold text-[10px] flex items-center justify-center flex-shrink-0">4</span>
+                                                        <span><strong>Bukti Pengembalian Toga</strong> (Berita Acara)</span>
+                                                    </li>
+                                                    <li class="flex items-center gap-2 col-span-1 md:col-span-2">
+                                                        <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 font-bold text-[10px] flex items-center justify-center flex-shrink-0">5</span>
+                                                        <span><strong>Screenshot Pengisian Bank Ijazah</strong></span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-800">
+                                                💡 <strong>Petunjuk Admin:</strong> Periksa kelengkapan isi ke-5 berkas di dalam dokumen PDF pada preview di atas (atau klik <strong>"📄 Buka PDF di Tab Baru"</strong>). Jika seluruh berkas valid dan jelas, klik tombol <strong class="text-emerald-700">Setujui</strong>. Jika berkas buram atau tidak lengkap, klik tombol <strong class="text-rose-700">Tolak</strong> dan tuliskan catatan penolakan.
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="flex items-center justify-center h-full text-xs text-slate-400 font-medium min-h-[380px]">
+                                            Berkas persyaratan PDF belum diunggah oleh mahasiswa.
+                                        </div>
+                                    @endif
                                 @elseif($key === 'drive_link')
                                     @php
                                         $driveUrl = $alumni->dokumen ? $alumni->dokumen->drive_link : null;
@@ -291,7 +364,7 @@
                                                         </svg>
                                                     </div>
                                                     <div class="min-w-0 flex-1">
-                                                        <span class="text-[10px] font-extrabold text-blue-800 uppercase tracking-wider block">Link Google Drive Berkas Mahasiswa</span>
+                                                        <span class="text-[10px] font-extrabold text-blue-800 uppercase tracking-wider block">Link Google Drive Berkas Mahasiswa (Arsip Lama)</span>
                                                         @if($driveUrl)
                                                             <a href="{{ $driveUrl }}" target="_blank" class="text-xs font-bold text-primary hover:underline truncate block max-w-full font-mono mt-0.5" title="{{ $driveUrl }}">
                                                                 {{ $driveUrl }}
@@ -309,39 +382,6 @@
                                                     </a>
                                                 @endif
                                             </div>
-
-                                            <!-- Checklist items to verify in Drive -->
-                                            <div class="border border-slate-200/80 rounded-2xl p-4 bg-slate-50/50 space-y-2">
-                                                <span class="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider block mb-1">
-                                                    Checklist 5 Berkas yang Harus Ada di Dalam Folder Drive Mahasiswa:
-                                                </span>
-                                                <ul class="text-xs text-slate-600 space-y-2">
-                                                    <li class="flex items-center gap-2">
-                                                        <span class="w-4 h-4 rounded-full bg-blue-100 text-blue-700 font-bold text-[10px] flex items-center justify-center">1</span>
-                                                        <span><strong>Screenshot Tracer Study</strong> (PDF / Tangkapan Layar Kuesioner)</span>
-                                                    </li>
-                                                    <li class="flex items-center gap-2">
-                                                        <span class="w-4 h-4 rounded-full bg-blue-100 text-blue-700 font-bold text-[10px] flex items-center justify-center">2</span>
-                                                        <span><strong>Surat Bebas Pustaka</strong> (PDF Keterangan Bebas Pinjam Perpustakaan)</span>
-                                                    </li>
-                                                    <li class="flex items-center gap-2">
-                                                        <span class="w-4 h-4 rounded-full bg-blue-100 text-blue-700 font-bold text-[10px] flex items-center justify-center">3</span>
-                                                        <span><strong>Surat Pernyataan Keabsahan Data Ijazah &amp; PDDIKTI</strong> (PDF bermaterai)</span>
-                                                    </li>
-                                                    <li class="flex items-center gap-2">
-                                                        <span class="w-4 h-4 rounded-full bg-blue-100 text-blue-700 font-bold text-[10px] flex items-center justify-center">4</span>
-                                                        <span><strong>Bukti Pengembalian Toga Bersama Petugas</strong> (PDF / Berita Acara Toga)</span>
-                                                    </li>
-                                                    <li class="flex items-center gap-2">
-                                                        <span class="w-4 h-4 rounded-full bg-blue-100 text-blue-700 font-bold text-[10px] flex items-center justify-center">5</span>
-                                                        <span><strong>Bukti Screenshot Pengisian Bank Ijazah</strong> (PDF / SS Pengisian)</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-800">
-                                            💡 <strong>Petunjuk Admin:</strong> Klik tombol <strong>"📁 Buka Folder Drive Mahasiswa"</strong> untuk memeriksa kelengkapan ke-5 file di atas. Jika sesuai, tekan tombol <strong class="text-emerald-700">Setujui</strong>. Jika file tidak lengkap atau folder private, tekan tombol <strong class="text-rose-700">Tolak</strong> dan masukkan alasan penolakannya.
                                         </div>
                                     </div>
                                 @endif

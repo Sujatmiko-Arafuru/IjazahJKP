@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Masuk Admin - Portal Layanan Alumni</title>
+    <title>Masuk Admin - SIJITU Jurusan Keperawatan</title>
     
     <!-- Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,9 +45,9 @@
                     <line x1="30" y1="190" x2="170" y2="190" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
                 </svg>
                 
-                <h2 class="text-2xl font-extrabold tracking-tight">Portal Layanan Alumni</h2>
+                <h2 class="text-2xl font-extrabold tracking-tight">SIJITU</h2>
                 <p class="mt-4 text-sm text-white/80 leading-relaxed font-light">
-                    Sistem informasi manajemen pendataan alumni dan verifikasi status kesiapan pengambilan ijazah Poltekkes Kemenkes Denpasar.
+                    Sistem Ijazah Terpadu Jurusan Keperawatan Poltekkes Kemenkes Denpasar. Portal manajemen berkas dan kesiapan pengambilan dokumen kelulusan.
                 </p>
             </div>
         </div>
@@ -62,8 +62,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
                         </svg>
                     </div>
-                    <h1 class="text-lg font-bold text-slate-800 tracking-tight leading-none text-center">Poltekkes Kemenkes Denpasar</h1>
-                    <span class="text-xs text-slate-400 font-bold mt-1 uppercase tracking-widest">Portal Alumni</span>
+                    <h1 class="text-lg font-bold text-slate-800 tracking-tight leading-none text-center">SIJITU</h1>
+                    <span class="text-xs text-slate-400 font-bold mt-1 uppercase tracking-widest">Jurusan Keperawatan</span>
                 </div>
 
                 <div class="mb-8 hidden lg:block">
@@ -86,16 +86,16 @@
                         </x-alert>
                     @endif
 
-                    <!-- Email Input -->
+                    <!-- Username Input -->
                     <div>
-                        <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Email Administrator</label>
+                        <label for="username" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Username Administrator</label>
                         <div class="relative rounded-xl shadow-sm">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.206" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                             </div>
-                            <input type="email" name="email" id="email" required value="{{ old('email') }}" class="w-full rounded-xl border border-slate-200 pl-10 pr-4 py-3 text-xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20" placeholder="admin@poltekkes-denpasar.ac.id">
+                            <input type="text" name="username" id="username" required autofocus value="{{ old('username') }}" class="w-full rounded-xl border border-slate-200 pl-10 pr-4 py-3 text-xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20" placeholder="Contoh: AdminD3JKP">
                         </div>
                     </div>
 

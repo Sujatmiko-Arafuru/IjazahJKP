@@ -32,6 +32,8 @@ class AlumniController extends Controller
 
             // Store pas foto to public disk
             $pasFotoPath = $request->file('pas_foto')->store('pas_foto', 'public');
+            // Store berkas persyaratan PDF to public disk
+            $berkasPersyaratanPath = $request->file('berkas_persyaratan')->store('berkas_persyaratan', 'public');
 
             // Create Alumnus
             $alumni = Alumni::create([
@@ -51,13 +53,13 @@ class AlumniController extends Controller
                 'status_verifikasi' => 'Belum Diverifikasi',
             ]);
 
-            // Create Dokumen relation with pas foto path & Google Drive link
+            // Create Dokumen relation with pas foto path & berkas persyaratan PDF path
             Dokumen::create([
                 'alumni_id' => $alumni->id,
                 'pas_foto' => $pasFotoPath,
                 'pas_foto_status' => 'Menunggu Verifikasi',
-                'drive_link' => $request->drive_link,
-                'drive_link_status' => 'Menunggu Verifikasi',
+                'berkas_persyaratan' => $berkasPersyaratanPath,
+                'berkas_persyaratan_status' => 'Menunggu Verifikasi',
             ]);
 
             // Create Ijazah relation
@@ -85,8 +87,9 @@ class AlumniController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            // Cleanup uploaded file on failure
+            // Cleanup uploaded files on failure
             if (isset($pasFotoPath)) Storage::disk('public')->delete($pasFotoPath);
+            if (isset($berkasPersyaratanPath)) Storage::disk('public')->delete($berkasPersyaratanPath);
 
             return back()->withInput()->with('toast_error', 'Gagal mendaftar: ' . $e->getMessage());
         }
